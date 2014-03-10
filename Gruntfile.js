@@ -10,35 +10,36 @@ module.exports = function (grunt) {
             server: {
                 files: 'app/*.js',
                 tasks: ['mochaTest:srv']
-            },
-            browserify: {
-                files: 'assets/js/**/*.js',
-                tasks: ['browserify2']
-            },
-            uglify: {
-                files: 'public/js/main.js',
-                tasks: ['uglify:' + environment]
             }
+// ,
+//            browserify: {
+//                files: 'assets/js/**/*.js',
+//                tasks: ['browserify2']
+//            },
+//            uglify: {
+//                files: 'public/js/main.js',
+//                tasks: ['uglify:' + environment]
+//            }
         },
 
         /* Client JS compilation */
-        browserify2: {
-            compile: {
-                entry: './assets/js/main.js',
-                compile: './public/js/main.js'
-            }
-        },
+//        browserify2: {
+//            compile: {
+//                entry: './assets/js/main.js',
+//                compile: './public/js/main.js'
+//            }
+//        },
 
         /* Minify JS code for production */
-        uglify: {
-            prod: {
-                files: {
-                    'public/js/main.min.js': 'public/js/main.js'
-                }
-            },
-            dev: {
-            }
-        },
+//        uglify: {
+//            prod: {
+//                files: {
+//                    'public/js/main.min.js': 'public/js/main.js'
+//                }
+//            },
+//            dev: {
+//            }
+//        },
 
 
         /* Backend unit test*/
@@ -47,7 +48,7 @@ module.exports = function (grunt) {
                 options: {
                     reporter: 'dot'
                 },
-                src: ['srv/tests/**/*.js']
+                src: ['tests/*.js']
             }
         },
 
@@ -55,21 +56,23 @@ module.exports = function (grunt) {
         /* Launch node application */
         nodemon: {
             dev: {
+                script: 'app.js',
                 options: {
-                    file: 'app/app.js',
-                    cwd: 'srv',
+//                    file: 'app/app.js',
+                    cwd: 'app',
                     env: {
-                        PORT: '3000',
+                        PORT: '3001',
                         env: 'dev'
                     }
                 }
             },
             prod: {
+                script: 'app.js',
                 options: {
-                    file: 'app/app.js',
-                    cwd: 'srv',
+                   // file: 'app/app.js',
+                    cwd: 'app',
                     env: {
-                        PORT: '3000',
+                        PORT: '3001',
                         env: 'prod'
                     }
                 }
@@ -85,13 +88,13 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('default', [ 'browserify2', 'uglify:'+environment, 'concurrent']);
-    grunt.loadTasks('config');
+    grunt.registerTask('default', 'concurrent');
+//    grunt.loadTasks('config');
 
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
+//    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-nodemon');
     grunt.loadNpmTasks('grunt-concurrent');
-    grunt.loadNpmTasks('grunt-browserify2');
+//    grunt.loadNpmTasks('grunt-browserify2');
 };
