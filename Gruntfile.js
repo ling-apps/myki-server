@@ -11,36 +11,7 @@ module.exports = function (grunt) {
                 files: 'app/*.js',
                 tasks: ['mochaTest:srv']
             }
-// ,
-//            browserify: {
-//                files: 'assets/js/**/*.js',
-//                tasks: ['browserify2']
-//            },
-//            uglify: {
-//                files: 'public/js/main.js',
-//                tasks: ['uglify:' + environment]
-//            }
         },
-
-        /* Client JS compilation */
-//        browserify2: {
-//            compile: {
-//                entry: './assets/js/main.js',
-//                compile: './public/js/main.js'
-//            }
-//        },
-
-        /* Minify JS code for production */
-//        uglify: {
-//            prod: {
-//                files: {
-//                    'public/js/main.min.js': 'public/js/main.js'
-//                }
-//            },
-//            dev: {
-//            }
-//        },
-
 
         /* Backend unit test*/
         mochaTest: {
@@ -58,7 +29,6 @@ module.exports = function (grunt) {
             dev: {
                 script: 'app.js',
                 options: {
-//                    file: 'app/app.js',
                     cwd: 'app',
                     env: {
                         PORT: '3001',
@@ -69,7 +39,6 @@ module.exports = function (grunt) {
             prod: {
                 script: 'app.js',
                 options: {
-                   // file: 'app/app.js',
                     cwd: 'app',
                     env: {
                         PORT: '3001',
@@ -81,20 +50,27 @@ module.exports = function (grunt) {
 
         /* Launch multiple task in parallel*/
         concurrent: {
-            tasks: ['nodemon:'+environment, 'watch'],
-            options: {
-                logConcurrentOutput: true
+            dev: {
+                tasks: ['nodemon:'+environment, 'watch'],
+                options: {
+                    logConcurrentOutput: true
+                }
+            },
+            test: {
+                tasks: ['nodemon:dev', 'mochaTest'],
+                options: {
+                    logConcurrentOutput: true
+                }
             }
+
         }
     });
 
-    grunt.registerTask('default', 'concurrent');
-//    grunt.loadTasks('config');
+    grunt.registerTask('default', 'concurrent:dev');
+    grunt.registerTask('test', 'concurrent:test');
 
     grunt.loadNpmTasks('grunt-contrib-watch');
-//    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-nodemon');
     grunt.loadNpmTasks('grunt-concurrent');
-//    grunt.loadNpmTasks('grunt-browserify2');
 };
