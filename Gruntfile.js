@@ -31,7 +31,8 @@ module.exports = function (grunt) {
                 options: {
                     cwd: 'app',
                     env: {
-                        PORT: '3001',
+                        PORT: process.env.PORT || '3001',
+                   //     IP: process.env.IP || 'localhost',
                         env: 'dev'
                     }
                 }
@@ -40,10 +41,10 @@ module.exports = function (grunt) {
                 script: 'app.js',
                 options: {
                     cwd: 'app',
-                    env: {
+                   /* env: {
                         PORT: '3001',
                         env: 'prod'
-                    }
+                    }*/
                 }
             }
         },
