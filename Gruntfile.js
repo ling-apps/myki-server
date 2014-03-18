@@ -4,15 +4,13 @@ module.exports = function (grunt) {
 
     // Project configuration.
     grunt.initConfig({
-
         /* Watch source code */
         watch: {
             server: {
                 files: 'app/*.js',
-                tasks: ['mochaTest:srv']
             }
         },
-
+       
         /* Backend unit test*/
         mochaTest: {
             srv: {
