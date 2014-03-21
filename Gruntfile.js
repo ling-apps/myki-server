@@ -10,7 +10,7 @@ module.exports = function (grunt) {
                 files: 'app/*.js',
             }
         },
-       
+
         /* Backend unit test*/
         mochaTest: {
             srv: {
@@ -38,7 +38,7 @@ module.exports = function (grunt) {
             prod: {
                 script: 'app.js',
                 options: {
-                    cwd: 'app',
+                    cwd: 'app'
                    /* env: {
                         PORT: '3001',
                         env: 'prod'
