@@ -3,22 +3,14 @@ var db = require('./db');
 
 function Server(db){
     this.app = express();
-    this.app.use(express.bodyParser());
+    this.app.use(express.json());
+    this.app.use(express.urlencoded());
     this.db = db;
     this.app.get('/pages', function(req, res) {
-        var page = {
-            title : 'page1',
-            content : 'this is content',
-            updatedAt : 1394535470441,
-            id: 1
-        };
         var collection = db.mongo.collection('pages'); //TODO refacto
-        collection.insert(page, {safe:false}, function(err, result) {
-            collection.find().toArray(function(err, items){
-                res.json(items);
-            });
-        }) ;
-
+        collection.find().toArray(function(err, items){
+            res.json(items);
+        });
     });
 
     this.app.post('/page', function(req, res) {
@@ -36,5 +28,7 @@ function Server(db){
 }
 
 Server.prototype = Object.create(Object.prototype);
+
+Server.prototype.constructor = Server;
 
 module.exports = Server;

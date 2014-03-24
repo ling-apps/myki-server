@@ -7,7 +7,11 @@ module.exports = function (grunt) {
         /* Watch source code */
         watch: {
             server: {
-                files: 'app/*.js',
+                files: 'app/*.js'
+            },
+            test: {
+                files: ['app/*.js', 'tests/*.js'],
+                tasks: "mochaTest"
             }
         },
 
@@ -54,19 +58,12 @@ module.exports = function (grunt) {
                 options: {
                     logConcurrentOutput: true
                 }
-            },
-            test: {
-                tasks: ['nodemon:dev', 'mochaTest'],
-                options: {
-                    logConcurrentOutput: true
-                }
             }
-
         }
     });
 
     grunt.registerTask('default', 'concurrent:dev');
-    grunt.registerTask('test', 'concurrent:test');
+    grunt.registerTask('test', ['mochaTest', 'watch:test']);
 
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-mocha-test');

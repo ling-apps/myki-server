@@ -9,19 +9,24 @@ var ip = process.env.IP || '127.0.0.1';
 var port = process.env.PORT || 3001;
 var database = new Db();
 var srv = new Server(database);
+var nodeServer;
 
 describe('App', function () {
 
     before(function (done) {
-
         database.mongo.open(function (err, db) { // need refacto mongo connector should be private
             if (err) throw err;
 
-            var server = srv.app.listen(port, ip);
-            server.on('listening', function () {
+            nodeServer = srv.app.listen(port, ip);
+            nodeServer.on('listening', function () {
                 done();
             });
         });
+    });
+
+    after(function(done){
+        nodeServer.close();
+        done();
     });
 
     describe('/pages', function () {

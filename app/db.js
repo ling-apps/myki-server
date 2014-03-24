@@ -8,13 +8,15 @@ var host = process.env.IP;
 var port = Connection.DEFAULT_PORT;
 
 function Db(){
-    // this line generates console warning. Don't find the fix
-    this.mongo = new mongoDB('myki', new Server('localhost', port, {w: 'majority', safe: false, journal: false, fsync: false}), {native_parser:false});
+    this.mongo = new mongoDB('myki',
+        new Server('localhost', port), {w: 1});
 };
 
 Db.prototype = Object.create(Object.prototype, {
     mongo: {writable: true, configurable: true}
 });
+
+Db.prototype.constructor = Db;
 
 Db.prototype.find = function(id) {
     var deferred = q.defer();
