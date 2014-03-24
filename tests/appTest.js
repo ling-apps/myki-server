@@ -16,7 +16,13 @@ describe('App', function () {
     before(function (done) {
         database.mongo.open(function (err, db) { // need refacto mongo connector should be private
             if (err) throw err;
-
+            var page = {title: 'page1',
+                content: 'this is content',
+                updatedAt: 1394535470441,
+                id: 1};
+            var collection = database.mongo.collection('pages'); //TODO refacto
+            collection.insert(page, {safe:false}, function(err, result) {
+            }) ;
             nodeServer = srv.app.listen(port, ip);
             nodeServer.on('listening', function () {
                 done();
@@ -26,6 +32,8 @@ describe('App', function () {
 
     after(function(done){
         nodeServer.close();
+        database.mongo.collection('pages').remove(function(){});
+        database.mongo.close();
         done();
     });
 
@@ -48,6 +56,7 @@ describe('App', function () {
                 });
         });
     });
+
     describe('/page post', function () {
         it(' should save page content', function (done) {
             var id = 1;

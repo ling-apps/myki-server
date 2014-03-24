@@ -18,12 +18,21 @@ Db.prototype = Object.create(Object.prototype, {
 
 Db.prototype.constructor = Db;
 
-Db.prototype.find = function(id) {
+Db.prototype.find = function(id) { //add the collection name in parameters
     var deferred = q.defer();
     var collection = this.mongo.collection('pages');
     collection.find().toArray(function(err, items){
             deferred.resolve(items[0]);//TODO refacto
         });
+    return deferred.promise;
+},
+
+Db.prototype.removeAll = function() { //add the collection name in parameters
+    var deferred = q.defer();
+    var collection = this.mongo.collection('pages');
+    collection.remove(function(){
+        deferred.resolve(true);//TODO refacto
+    });
     return deferred.promise;
 }
 
