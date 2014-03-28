@@ -5,10 +5,14 @@ function Server(db){
     this.app = express();
     this.app.use(express.json());
     this.app.use(express.urlencoded());
+    var cors = require('cors');
+    this.app.use(cors());
     this.db = db;
     this.app.get('/pages', function(req, res) {
         var collection = db.mongo.collection('pages'); //TODO refacto
         collection.find().toArray(function(err, items){
+            res.header("Access-Control-Allow-Origin", "*");
+            res.header("Access-Control-Allow-Headers", "X-Requested-With");
             res.json(items);
         });
     });
