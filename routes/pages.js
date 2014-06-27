@@ -37,4 +37,24 @@ router.post('/', function(req, res) {
 
 });
 
+router.get('/:id', function(req, res) {
+
+    mongo.findById('pages', req.params.id, function(err, page) {
+        if (err) res.json(500, err);
+
+        res.json(page);
+    });
+
+});
+
+router.delete('/:id', function(req, res) {
+
+    mongo.removeById('pages', req.params.id, function(err, page) {
+        if (err) res.status(500).json(err);
+
+        res.send(200);
+    });
+
+});
+
 module.exports = router;
