@@ -1,58 +1,58 @@
 var express = require('express');
 var router = express.Router();
 var mongo = require('../db');
+var Page = require('../models/Page');
 
 router.get('/', function(req, res) {
 
-    mongo.getCollection('pages', function(err, collection) {
-        if (err) res.json(500, err);
-
-        collection.find().toArray(function(err, pages) {
-            if (err) {
-                res.json(500, err);
-            } else {
-                res.json(pages);
-            }
-        })
+    Page.findAll(function(err, pages) {
+        if (err)
+            res.status(500).json(err);
+        else
+            res.json(pages);
     });
     
 });
 
 router.post('/', function(req, res) {
 
-    var page = {
+    var page = new Page({
         title: req.body.title,
-        content: req.body.content
-    };
+        content: req.body.content,
+        author: req.body.author,
+        _id: req.body._id || null
+    });
 
-    mongo.getCollection('pages', function(err, collection) {
-        if (err) res.json(500, err);
-
-        collection.insert(page, function(err, savedPage) {
-            if (err) res.json(500, err);
-
-            res.json(savedPage);
-        });
+    page.save(function(err, page) {
+        if (err) {
+            res.json(500, err);
+        } else {
+            res.json(page);
+        }
     });
 
 });
 
 router.get('/:id', function(req, res) {
 
-    mongo.findById('pages', req.params.id, function(err, page) {
-        if (err) res.json(500, err);
-
-        res.json(page);
+    Page.findById(id, function(err, page) {
+        if (err) {
+            res.json(500, err);
+        } else {
+            res.json(page);
+        }
     });
 
 });
 
 router.delete('/:id', function(req, res) {
 
-    mongo.removeById('pages', req.params.id, function(err, page) {
-        if (err) res.status(500).json(err);
-
-        res.send(200);
+    Page.removeById(req.params.id, function(err) {
+        if (err) {
+            res.json(500, err);
+        } else {
+            res.send(200);
+        }
     });
 
 });

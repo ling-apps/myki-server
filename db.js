@@ -45,7 +45,7 @@ module.exports.findById = function(collectionName, id, cb) {
             });
         }
 
-    })
+    });
 };
 
 module.exports.removeById = function(collectionName, id, cb) {
@@ -61,5 +61,5 @@ module.exports.removeById = function(collectionName, id, cb) {
             });
         }
 
-    })
+    });
 };
