@@ -11,7 +11,7 @@ router.get('/', function(req, res) {
         else
             res.json(pages);
     });
-    
+
 });
 
 router.post('/', function(req, res) {
