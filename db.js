@@ -1,16 +1,12 @@
-var mongoDB = require('mongodb').Db;
-var Server = require('mongodb').Server;
+var MongoClient = require('mongodb').MongoClient;
 var Connection = require('mongodb').Connection;
 var ObjectID = require('mongodb').ObjectID;
 
-var port = Connection.DEFAULT_PORT;
-var server = new Server('localhost', port);
+var url = process.env.MONGOHQ_URL || 'mongodb://localhost:'+Connection.DEFAULT_PORT + '/myki';
 
 var db = null;
-
 module.exports.open = function(cb) {
-    var dbConnection = new mongoDB('myki', server, {w: 1});
-    dbConnection.open(function(err, mdb) {
+    MongoClient.connect(url, function(err, mdb) {
         if (err) throw new Error(err);
 
         db = mdb;
