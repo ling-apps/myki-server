@@ -1,7 +1,7 @@
 var app = require('./app');
 var mongo = require('./db');
 
-app.set('port', 3001);
+app.set('port', process.env.PORT || 3001);
 
 mongo.open(function() {
 
